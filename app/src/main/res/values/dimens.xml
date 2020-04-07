@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Blair Sweigman <blair.sweigman@gmail.com>
+  -->
+
+<resources>
+    <dimen name="omerHeaderSize">36sp</dimen>
+    <dimen name="omerBig">72sp</dimen>
+    <dimen name="omerDates">24sp</dimen>
+    <dimen name="margins">16dp</dimen>
+</resources>

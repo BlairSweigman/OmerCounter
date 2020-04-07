@@ -1,0 +1,23 @@
+<!--
+  ~ Copyright (c) 2020. - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~
+  ~ Written by Blair Sweigman <blair.sweigman@gmail.com>
+  -->
+
+<resources>
+
+    <string name="app_name">Omer Counter</string>
+    <string name="sunrise_sunset">https://sunrise-sunset.org/</string>
+    <string name="sunset_time_courtesy_of">Sunset time Courtesy of</string>
+    <string name="of_the_omer">Of the Omer</string>
+    <string name="loading">--</string>
+    <string name="today_is_the">Today is the</string>
+    <string name="counting_finishes_on">Counting Finishes on:</string>
+    <string name="omer_starts_on">Omer Starts on:</string>
+    <string name="reset_location">Reset Location</string>
+    <string name="omer_counted">The Omer has been counted for this year</string>
+    <string name="will_start_in">Omer Will Start In</string>
+    <string name="days">Days</string>
+</resources>
