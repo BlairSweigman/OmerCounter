@@ -43,7 +43,9 @@ const val YEAR = "2020"
 const val LOCATION_REQUEST = 100
 const val GPS_REQUEST = 101
 
-
+/**
+ * MainActivity
+ */
 class MainActivity : AppCompatActivity() {
 
 
@@ -53,6 +55,10 @@ class MainActivity : AppCompatActivity() {
     private var isGPSEnabled = false
     private var permGranted = false
     private var needSave = false
+
+    /**
+     * Creates the activity and initializes the GPS
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -65,16 +71,23 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    /** starts the locator
+     *
+     */
     override fun onStart() {
         super.onStart()
         invokeLocationAction()
     }
 
-
+    /**
+     * gets the dates for the omer, tries to get saved dates for the current year,
+     * if not available, fetches dates from API
+     * @param lat {Double} Lattitude
+     * @param  lng {Double} Longitude
+     */
     private fun getDates(lat: Double, lng: Double) {
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-
         val currentYear = sharedPref.getString("Year", "")
         if (currentYear != YEAR) {
             showLoc(lat, lng)
@@ -85,12 +98,12 @@ class MainActivity : AppCompatActivity() {
                 putString("END_DATE", END_DATE)
                 commit()
             }
-            Timber.i( "Getting location from GPS")
+            Timber.i("Getting location from GPS")
             sunsetViewModel.getSunsetDate(lat, lng, START_DATE, DatePoint.START)
             sunsetViewModel.getSunsetDate(lat, lng, END_DATE, DatePoint.END)
         } else {
             needSave = false
-            Timber.i( "retrieving times from preferences")
+            Timber.i("retrieving times from preferences")
             sunsetViewModel.setStartSunset(sharedPref.getString("Sunset_Start", "")!!)
             sunsetViewModel.setEndUnset(sharedPref.getString("Sunset_End", "")!!)
             sunsetViewModel.calcOmer()
@@ -133,6 +146,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * resets the location by clearing out preferences and getting dates from API
+     * @return {Boolean} true to clear menu navigation
+     */
     private fun resetLocation(): Boolean {
         binding.txtOmer.text = "--"
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
@@ -145,11 +162,21 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    /**
+     * creates menu
+     * @param menu {Menu} the menu
+     * @return {Boolean} true
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * handles reset location
+     * @param item the selected item
+     * @return {Boolean} Menu handled
+     */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.reset_location) {
             return resetLocation()
@@ -167,12 +194,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //Location:
+    /**
+     * gets location
+     */
     private fun invokeLocationAction() {
-        Timber.i( "InvokeLocation")
+        Timber.i("InvokeLocation")
 
         when {
-            !isGPSEnabled -> Timber.e( "GPS NOT ENABLED")
+            !isGPSEnabled -> Timber.e("GPS NOT ENABLED")
             isPermissionsGranted() -> startLocationUpdate()
             shouldShowRequestPermissionRationale() ->
                 Timber.i(
@@ -191,8 +220,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * observes location date and gets the dates when found
+     */
     private fun startLocationUpdate() {
-        Timber.e( "startLocationUpdate")
+        Timber.e("startLocationUpdate")
         locationViewModel.getLocationData().observe(this, Observer {
             //latLong.text =  getString(R.string.latLong, it.longitude, it.latitude)
             getDates(it.latitude, it.longitude)
@@ -233,9 +265,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun showLoc(lat: Double,lng:Double) {
 
-        Snackbar.make(binding.root,"Setting Location to %.2f lat. %.2f lng".format(lat,lng),Snackbar.LENGTH_SHORT).show()
+    /**
+     * shows the location in a snackbar
+     * @param lat {Double} Lattitude
+     * @param lng {Double} Longitude
+     *
+     */
+    private fun showLoc(lat: Double, lng: Double) {
+
+        Snackbar.make(
+            binding.root,
+            "Setting Location to %.2f lat. %.2f lng".format(lat, lng),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 }
 

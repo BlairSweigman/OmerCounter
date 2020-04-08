@@ -12,7 +12,13 @@ import android.app.Application
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
+/**
+ * Application Controller for managing Timber
+ */
 class ApplicationController : Application() {
+    /**
+     * Initializes the Timber log
+     */
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {

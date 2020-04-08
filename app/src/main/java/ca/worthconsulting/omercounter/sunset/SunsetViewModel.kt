@@ -18,7 +18,18 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 import java.lang.Exception
 
+/**
+ * the conditions for getting the dates
+ * @property START start of omer
+ * @property END end of omer
+ * @property TODAY todays sunset
+ */
 enum class DatePoint { START, END,TODAY }
+
+/**
+ * Handles the data for the sunset. It will fetch dates from API and start the calcuation for the
+ * OMER and clear the date to restart count
+ */
 class SunsetViewModel : ViewModel() {
     private var omerShown = false
 
@@ -34,13 +45,30 @@ class SunsetViewModel : ViewModel() {
     private val _omerCount = MutableLiveData<Int>()
     val omerCount : LiveData<Int> get() = _omerCount
 
+    /**
+     * sets Start of Omer
+     * @param date {String} Start of Omer
+     */
     fun setStartSunset(date : String) {
         _startSunset.value = Sunset(date)
     }
+
+    /**
+     * sets End of Omer
+     * @param date {String} End of Omer
+     */
     fun setEndUnset(date: String) {
         _endSunset.value = Sunset(date)
     }
 
+    /**
+     * gets the date of the sunset
+     * @param lat {Double} lattitude
+     * @param lng {Double} Longitude
+     * @param date {String} Date in yyyy-MM-dd format
+     * @param datePoint {Datepoint} the date to look up
+     *
+     */
     fun getSunsetDate(lat: Double, lng: Double, date: String, datePoint: DatePoint) {
         Timber.i("Date: $date for $datePoint")
         CoroutineScope(Dispatchers.IO).launch {
@@ -66,6 +94,9 @@ class SunsetViewModel : ViewModel() {
         }
     }
 
+    /**
+     * calulate dates if all dates available and omer has not been shown
+     */
     fun calcOmer() {
         if (_startSunset.value!=null && _endSunset.value!=null && _todaySunset.value!=null && !omerShown) {
             //Log.i("SunsetViewModel","I can calculate the Omer")
@@ -74,6 +105,8 @@ class SunsetViewModel : ViewModel() {
         }
 
     }
+    /** clears omershown so calcOmer can be run again */
+
     fun clearToday() {
         _todaySunset.value = null
         omerShown = false

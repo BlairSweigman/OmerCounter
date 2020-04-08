@@ -28,8 +28,18 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
+/**
+ * Retrofit interface to the Sunrise-sunset API
+ */
 interface SunApiService {
 
+    /**
+     * gets the sunset bu utc for location/date
+     * @param lat {Double} - Lattitude (Negative values south)
+     * @param Log {Double} - Longitude (Negative values west)
+     * @param date {String} - Date
+     * @param formatted {int} - must be 0
+     */
     @GET("/json")
     suspend fun getSunsetByDate(
         @Query("lat") lat: Double,
@@ -37,9 +47,11 @@ interface SunApiService {
         @Query("date") date: String,
         @Query("formatted") formatted: Int = 0
     ) : Response<Results>
-
 }
 
+/**
+ * API connection
+ */
 object SunApi {
     val retrofitService: SunApiService by lazy { retrofit.create(
         SunApiService::class.java) }

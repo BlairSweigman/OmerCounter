@@ -9,6 +9,10 @@ package ca.worthconsulting.omercounter.sunset
 
 import com.squareup.moshi.Json
 
+/**
+ * stores date of sunset
+ * @param sunset {String} the UTC date of the sunset
+ */
 data class Sunset(
     @Json(name="sunset") val sunset: String
 )

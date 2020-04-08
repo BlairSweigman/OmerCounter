@@ -10,5 +10,10 @@ package ca.worthconsulting.omercounter.sunset
 
 import com.squareup.moshi.Json
 
+/**
+ * class to store API results
+ * @param results {Sunset} sunset data
+ * @param status {String} status of API Call
+ */
 data class Results (@Json(name="results")val results: Sunset,
                     @Json(name="status") val status: String)
